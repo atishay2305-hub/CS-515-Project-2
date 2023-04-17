@@ -18,6 +18,7 @@ def is_valid_expression(string,operators,variables,values):
     for i in range(0,len(l)):
         l[i]=l[i].strip()
     i=0
+    # this is a test implementation for adding variables
     def add_variables(l, variables, values):
         i = 0
         while i < len(l):
