@@ -18,9 +18,6 @@ def is_valid_expression(string,operators,variables,values):
     while(i<len(l)):
         if(l[i] in operators):
             if(l[i] in ['++','--']):
-                if(l[i]=='--' and i-1>=0 and i+1<len(l) and l[i+1].strip()!='' and l[i-1].strip()!=''):
-                    i+=2
-                    continue
                 if(i-1>=0 and i+1<len(l) and l[i-1].strip()=='' and l[i+1].strip()!='' and not isfloat(l[i+1])):
                     if(l[i+1] not in variables):
                         variables.append(l[i+1])
@@ -31,7 +28,10 @@ def is_valid_expression(string,operators,variables,values):
                         values.append(0.0)
                 else:
                     return False
-                i+=2
+                l.pop(i)
+                l.pop(i)
+                l.pop(i-1)
+                l.insert(i-1,'1.0')
             elif(l[i]!='-' and l[i]!='!'):
                 if(i-1>=0 and i+1<len(l) and l[i-1]!='' and l[i+1] not in operators and l[i-1] not in operators):
                     if(l[i+1].strip()=='' and i+2<len(l) and l[i+2]=='-'):
