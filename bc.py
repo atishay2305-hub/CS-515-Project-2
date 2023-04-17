@@ -298,13 +298,14 @@ def parse_braces(string,operators,variables,values):
             return evl,flag
         res=res[:start]+str(evl)+res[end+1:]
     return parse_low(res,operators,variables,values)
+
 def parse_statement(inputLines,operators,variables,values):
     lines=inputLines.split("\n")
     flag=True
     for string in lines:
         flag=is_valid_statement(string,operators,variables,values)
         if(flag==False or 'print' in variables):
-            print('parse error')
+            # print('parse error')
             return
     for string in lines:
         string=string.strip()
