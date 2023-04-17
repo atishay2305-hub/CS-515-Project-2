@@ -138,11 +138,9 @@ def parse_low(string,operators,variables,values):
         element=l[i].strip()
         if(element in ['++','--']):
             val1=raw.pop()
-            val2=l[i+1]
+            val1=val1.strip()
+            val2=l[i+1].strip()
             if(val2.strip()==''):
-                if(val1 not in variables):
-                    variables.append(val1)
-                    values[variables.index(val1)]=0
                 raw.append(str(values[variables.index(val1)]))
                 if(element=='++'):
                     values[variables.index(val1)]+=1
@@ -150,26 +148,17 @@ def parse_low(string,operators,variables,values):
                     values[variables.index(val1)]-=1
                 
             elif(val1.strip()==''):
-                if(val2 not in variables):
-                    variables.append(val2)
-                    values[variables.index(val2)]=0
                 if(element=='++'):
                    values[variables.index(val2)]+=1
                 else:
                     values[variables.index(val2)]-=1
                 raw.append(str(values[variables.index(val2)]))
-            elif(val1.strip()!='' and val2.strip()!='' and l[i]=='--'):
-                raw.append(val1)
-                raw.append('-')
-                raw.append('')
-                l[i]='-'
-                i-=2
             i+=2
             continue
         elif(element=='-'):
             val1=raw.pop()
             if(val1.strip()==''):
-                val2=l[i+1]
+                val2=l[i+1].strip()
                 if(isfloat(val2)):
                     raw.append(str(-1*float(val2)))
                 else:
