@@ -65,7 +65,13 @@ def is_valid_expression(string,operators,variables,values):
                 i+=2
         else:
             if(not isfloat(l[i]) and l[i] not in variables):
-                variables.append(l[i])
+                if(l[i].strip()==''):
+                    i+=1
+                    continue
+                if(not bool(re.match("^[A-Za-z0-9_]+$", l[i].strip())) or l[i]=='print'):
+                    return False
+                
+                variables.append(l[i].strip())
                 values.append(0.0)
             i+=1
     return True
@@ -92,9 +98,15 @@ def is_valid_statement(string,operators,variables,values):
             elem = elem.strip()
             if(not is_valid_braces(elem,operators,variables,values)):
                 return False
-    elif(re.search('([a-zA-Z0-9]| )(=|\+=|-=|\*=|\/=|\^=|%=)([a-zA-Z0-9]| |\()',string)):
-        l=re.split('(=|\+=|-=|\*=|\/=|\^=|%=)',string,maxsplit=1)
+    elif(re.search('([a-zA-Z0-9]| )(=|\+=|-=|\*=|\/=|\^=|%=|&&=|\|\=)([a-zA-Z0-9]| |\()',string)):
+        l=re.split('(=|\+=|-=|\*=|\/=|\^=|%=|&&=|\|\|=)',string,maxsplit=1)
         if(len(l)!=3):
+            return False
+        if(re.search('([a-zA-Z0-9]| )(=|\+=|-=|\*=|\/=|\^=|%=|&&=|\|\=)([a-zA-Z0-9]| |\()',l[2])):
+            return False
+        if(isfloat(l[0])):
+            return False
+        if(not bool(re.match("^[A-Za-z0-9_]+$", l[0].strip()))):
             return False
         if(not (is_valid_braces(l[0],operators,variables,values) and is_valid_braces(l[2],operators,variables,values))):
             return False
@@ -201,14 +213,14 @@ def parse_low(string,operators,variables,values):
             loopFlag=True
             ind=val.index('*')
             res=val[ind-1]*val[ind+1]
-        elif('+' in val):
-            loopFlag=True
-            ind=val.index('+')
-            res=val[ind-1]+val[ind+1]
         elif('-' in val):
             loopFlag=True
             ind=val.index('-')
             res=val[ind-1]-val[ind+1]
+        elif('+' in val):
+            loopFlag=True
+            ind=val.index('+')
+            res=val[ind-1]+val[ind+1]
         elif("==" in val):
             loopFlag=True
             ind=val.index('==')
@@ -289,7 +301,11 @@ def parse_statement(inputLines,operators,variables,values):
     for string in lines:
         flag=is_valid_statement(string,operators,variables,values)
         if(flag==False or 'print' in variables):
-            print('parse error')
+            print(f'parse error')
+            return
+    for variable in variables:
+        if(variable=='print' or not bool(re.match("^[A-Za-z0-9_]+$", variable))):
+            print(f'parse error')
             return
     for string in lines:
         string=string.strip()
@@ -318,71 +334,47 @@ def parse_statement(inputLines,operators,variables,values):
             exps=string.split('=',1)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]=res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]=res
         elif(re.search('([a-zA-Z0-9]| )\+=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('+=',1)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]+=res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]+=res
         elif(re.search('([a-zA-Z0-9]| )-=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('-=',2)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]-=res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]-=res
         elif(re.search('([a-zA-Z0-9]| )\*=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('*=',2)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]-=res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]-=res
         elif(re.search('([a-zA-Z0-9]| )\/=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('/=',2)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
             if(res==0):
-                print('divide by zero')
+                print(f'divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]/=res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]/=res
         elif(re.search('([a-zA-Z0-9]| )\^=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('^=',2)
             res,flg=parse_braces(exps[1],operators,variables,values)
             if(flg):
                 print('divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]=(values[variables.index(exps[0].strip())])**res
-            else:
-                variables.append(exps[0].strip())
-                values.append(res)
+            values[variables.index(exps[0].strip())]=(values[variables.index(exps[0].strip())])**res
         elif(re.search('([a-zA-Z0-9]| )%=([a-zA-Z0-9]| |\()',string)):
             exps=string.split('%=',2)
             res,flg=parse_braces(exps[1],operators,variables,values)
@@ -392,11 +384,27 @@ def parse_statement(inputLines,operators,variables,values):
             if(res==0):
                 print('divide by zero')
                 return
-            if(exps[0].strip() in variables):
-                values[variables.index(exps[0].strip())]%=res
+            values[variables.index(exps[0].strip())]%=res
+        elif(re.search('([a-zA-Z0-9]| )&&=([a-zA-Z0-9]| |\()',string)):
+            exps=string.split('&&=',2)
+            res,flg=parse_braces(exps[1],operators,variables,values)
+            if(flg):
+                print('divide by zero')
+                return
+            if(values[variables.index(exps[0].strip())]!=0 and res!=0):
+                values[variables.index(exps[0].strip())]%=1
             else:
-                variables.append(exps[0].strip())
-                values.append(res)
+                values[variables.index(exps[0].strip())]%=0
+        elif(re.search('([a-zA-Z0-9]| )\|\|=([a-zA-Z0-9]| |\()',string)):
+            exps=string.split('||=',2)
+            res,flg=parse_braces(exps[1],operators,variables,values)
+            if(flg):
+                print('divide by zero')
+                return
+            if(values[variables.index(exps[0].strip())]!=0 or res!=0):
+                values[variables.index(exps[0].strip())]%=1
+            else:
+                values[variables.index(exps[0].strip())]%=0
         else:
             res,flg=parse_braces(string,operators,variables,values)
             if(flg):
