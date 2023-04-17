@@ -18,7 +18,10 @@ def is_valid_expression(string,operators,variables,values):
     while(i<len(l)):
         if(l[i] in operators):
             if(l[i] in ['++','--']):
-                if(i-1>=0 and i+1<len(l) and l[i-1]=='' and l[i+1]!='' and not isfloat(l[i+1])):
+                if(l[i]=='--' and i-1>=0 and i+1<len(l) and l[i+1].strip()!='' and l[i-1].strip()!=''):
+                    i+=2
+                    continue
+                if(i-1>=0 and i+1<len(l) and l[i-1].strip()=='' and l[i+1].strip()!='' and not isfloat(l[i+1])):
                     if(l[i+1] not in variables):
                         variables.append(l[i+1])
                         values.append(0.0)
@@ -30,13 +33,19 @@ def is_valid_expression(string,operators,variables,values):
                     return False
                 i+=2
             elif(l[i]!='-' and l[i]!='!'):
-                if(i-1>=0 and i+1<len(l) and l[i-1]!='' and l[i+1]!='' and l[i+1] not in operators and l[i-1] not in operators):
+                if(i-1>=0 and i+1<len(l) and l[i-1]!='' and l[i+1] not in operators and l[i-1] not in operators):
+                    if(l[i+1].strip()=='' and i+2<len(l) and l[i+2]=='-'):
+                        i+=2
+                        continue
+                    elif(l[i+1].strip==''):
+                        return False
                     if(not isfloat(l[i+1]) and l[i+1] not in variables):
                         variables.append(l[i+1])
                         values.append(0.0)
                     if(not isfloat(l[i-1]) and l[i-1] not in variables):
                         variables.append(l[i-1])
                         values.append(0.0)
+                        
                 elif(i+2<len(l) and l[i+1]=='' and (l[i+2]=='-' or l[i+2]=='!')):
                     if(not isfloat(l[i-1]) and l[i-1] not in variables):
                         variables.append(l[i-1])
@@ -53,7 +62,12 @@ def is_valid_expression(string,operators,variables,values):
                 else:
                     return False
             else:
-                if(i-1>=0 and i+1<len(l) and l[i+1] not in operators and l[i-1] not in operators and l[i+1]!=''):
+                if(i-1>=0 and i+1<len(l) and l[i+1] not in operators and l[i-1] not in operators):
+                    if(l[i+1].strip()=='' and i+2<len(l) and l[i+2]=='-'):
+                        i+=2
+                        continue
+                    elif(l[i+1].strip==''):
+                        return False
                     if(not isfloat(l[i+1]) and l[i+1] not in variables and l[i+1]!=''):
                         variables.append(l[i+1])
                         values.append(0.0)
@@ -144,6 +158,12 @@ def parse_low(string,operators,variables,values):
                 else:
                     values[variables.index(val2)]-=1
                 raw.append(str(values[variables.index(val2)]))
+            elif(val1.strip()!='' and val2.strip()!='' and l[i]=='--'):
+                raw.append(val1)
+                raw.append('-')
+                raw.append('')
+                l[i]='-'
+                i-=2
             i+=2
             continue
         elif(element=='-'):
@@ -155,7 +175,7 @@ def parse_low(string,operators,variables,values):
                 else:
                     if(val2 not in variables):
                         variables.append(val2)
-                        values[variables.index(val2)]=0
+                        values.append(0.0)
                     raw.append(str(-1*values[variables.index(val2)]))
                 i+=2
             else:
