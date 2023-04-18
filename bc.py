@@ -437,7 +437,7 @@ def comment_parser(program):
                 commandFlag=True
                 l=line.split('/*',2)
                 if(l[0].strip()!=''):
-                    res+=(l[0]+"\n")
+                    res+=(l[0])
             else:
                 res+=(line+"\n")
         else:
