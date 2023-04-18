@@ -43,7 +43,6 @@ x = 2 <br>
 y = 3 <br>
 */ <br>
 y = 4 <br>
-# print 0 <br>
 print x, y <br>
 <br>
 x = 1 <br>
