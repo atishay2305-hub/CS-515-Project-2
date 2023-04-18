@@ -19,6 +19,46 @@ All these issues have resolved after developing variety of text cases and making
 
 #list of four extensions we have chosen:
 1) Op= , we implemented this  extension which is used to apply the operation to the first variable and second one and store the result in first operator itself . operator can be all implemented operators even 
+Sample Tests:
+x = 5
+x *= 2
+print(x)
+x = 2
+x /= 5
+print(x)
+x = 20
+x -=2
+print(x)
 2) We implemented relational operators which are used to compare two variables,numbers,expressions etc.,
+Sample Tests:
+x = 3
+y = 2
+print(x == y)
+x = 1
+y = 4
+print(x < y)
+print(5 > 3)
 3) We implemented boolean operations and also having op= we also implemented &&= ||=
+print(1 && 2)
+print(2 && 1)
+print(-5 && 1)
+print(0 && -100)
+print(6 && -6)
 4) Comment parsing is the last extension we implemented.We handled both inline commands and multiple line commands
+x = 1
+/* 
+x = 2
+y = 3
+*/
+y = 4
+# print 0
+print x, y
+
+x = 1
+y = 2
+/*
+trial 
+*/
+print(x) 
+print(y)
+
