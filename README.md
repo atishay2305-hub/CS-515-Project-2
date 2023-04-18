@@ -24,5 +24,32 @@ x = 20 <br>
 x -=2 <br>
 print x <br>
 2) We implemented relational operators which are used to compare two variables,numbers,expressions etc.,
+Tests: <br>
+x = 3 <br>
+y = 2 <br>
+print x == y <br>
+x = 1 <br>
+y = 4 <br>
+print x < y <br>
+print 5 > 3 <br>
 3) We implemented boolean operations and also having op= we also implemented &&= ||=
+Tests: <br>
+print 1 && 2, 2 && 1, -5 && 1, 0 && -100 <br>
 4) Comment parsing is the last extension we implemented.We handled both inline commands and multiple line commands
+Tests: <br>
+x = 1 <br>
+/* <br>
+x = 2 <br>
+y = 3 <br>
+*/ <br>
+y = 4 <br>
+# print 0 <br>
+print x, y <br>
+<br>
+x = 1 <br>
+y = 2 <br>
+/* <br>
+trial <br>
+*/ <br>
+print x <br> 
+print y <br>
