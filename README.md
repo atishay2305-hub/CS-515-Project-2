@@ -13,41 +13,53 @@ Group Members: Praneeth Gubba pgubba@stevens.edu Atishay Jain ajain70@stevens.ed
 #list of four extensions we have chosen:
 
 1) Op= , we implemented this extension which is used to apply the operation to the first variable and second one and store the result in first operator itself . operator can be all implemented operators even
-Tests: <br>
-x = 5 <br>
-x *= 2 <br>
-print x <br>
-x = 2 <br>
-x /= 5 <br>
-print x <br>
-x = 20 <br>
-x -=2 <br>
-print x <br>
+example test cases:-
+x = 5
+x *= 2
+print x
+/*this prints 10*/
+x = 2
+x /= 5
+print x
+/* prints 0.4*/
+x = 20
+x -=2
+print x
+/* prints 18*/
+x=10
+x &&=1.0
+print x
+/* prints 1/
 2) We implemented relational operators which are used to compare two variables,numbers,expressions etc.,
-Tests: <br>
-x = 3 <br>
-y = 2 <br>
-print x == y <br>
-x = 1 <br>
-y = 4 <br>
-print x < y <br>
-print 5 > 3 <br>
+x = 3
+y = 2
+print x == y
+/* prints 0*/
+x = 1
+y = 4
+print x < y
+print 5 > 3
+/* prints 1*/
+/*prints 1*/
 3) We implemented boolean operations and also having op= we also implemented &&= ||=
-Tests: <br>
-print 1 && 2, 2 && 1, -5 && 1, 0 && -100 <br>
+print 1 && 2, 2 && 1, -5 && 1, 0 && -100
+/* prints 1 1 0 0
 4) Comment parsing is the last extension we implemented.We handled both inline commands and multiple line commands
-Tests: <br>
-x = 1 <br>
-/* <br>
-x = 2 <br>
-y = 3 <br>
-*/ <br>
-y = 4 <br>
-print x, y <br>
-x = 1 <br>
-y = 2 <br>
-/* <br>
-trial <br>
-*/ <br>
-print x <br> 
-print y <br>
+x = 1
+/* 
+x = 2
+y = 3
+*/
+y = 4
+# print 0
+print x, y
+/*should print 1.0 4.0*/
+x = 1
+y = 2
+/*
+trial 
+*/
+print x 
+print y
+/* prints 1.0 
+prints 2.0*/
