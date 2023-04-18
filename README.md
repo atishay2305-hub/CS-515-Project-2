@@ -59,7 +59,6 @@ x = 2
 y = 3
 */
 y = 4
-# print 0
 print x, y
 /*should print 1.0 4.0*/
 x = 1
