@@ -44,7 +44,6 @@ y = 3 <br>
 */ <br>
 y = 4 <br>
 print x, y <br>
-<br>
 x = 1 <br>
 y = 2 <br>
 /* <br>
