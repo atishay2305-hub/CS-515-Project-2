@@ -13,6 +13,16 @@ Group Members: Praneeth Gubba pgubba@stevens.edu Atishay Jain ajain70@stevens.ed
 #list of four extensions we have chosen:
 
 1) Op= , we implemented this extension which is used to apply the operation to the first variable and second one and store the result in first operator itself . operator can be all implemented operators even
+Tests:
+x = 5
+x *= 2
+print x
+x = 2
+x /= 5
+print x
+x = 20
+x -=2
+print x <br>
 2) We implemented relational operators which are used to compare two variables,numbers,expressions etc.,
 3) We implemented boolean operations and also having op= we also implemented &&= ||=
 4) Comment parsing is the last extension we implemented.We handled both inline commands and multiple line commands
